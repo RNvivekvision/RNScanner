@@ -15,7 +15,7 @@ const SCInput = forwardRef(
         <View style={styles.inputContainer}>
           <RNInput
             ref={ref}
-            placeholderTextColor={error && '#d13232'}
+            placeholderTextColor={error ? Colors.d13232 : Colors.Placeholder}
             style={styles.input}
             {...rest}
           />
@@ -37,36 +37,33 @@ const SCInput = forwardRef(
 const useStyles = ({ error }) => {
   return StyleSheet.create({
     container: {
-      paddingHorizontal: wp(4),
-      paddingTop: hp(1),
+      paddingTop: hp(2),
     },
     title: {
-      fontFamily: FontFamily.Medium,
-      color: error ? Colors.d13232 : Colors.Black,
+      fontSize: FontSize.font12,
+      color: error ? Colors.d13232 : Colors.N475569,
     },
     inputContainer: {
       ...RNStyles.flexRow,
-      width: wp(85),
-      borderWidth: 1,
-      borderColor: error ? Colors.d13232 : Colors.Placeholder,
-      borderRadius: wp(2),
-      marginVertical: hp(1),
+      borderBottomWidth: 1,
+      borderBottomColor: error ? Colors.d13232 : Colors.D7EBFF,
     },
     input: {
       fontSize: FontSize.font14,
       flex: 1,
       marginVertical: 0,
-      paddingRight: 0,
+      paddingHorizontal: 0,
+      color: Colors.N054579,
     },
     IconContainer: {
       ...RNStyles.center,
       width: wp(8),
       height: wp(8),
-      marginHorizontal: wp(1),
+      marginLeft: wp(1),
     },
     icon: {
       ...RNStyles.image70,
-      tintColor: error ? Colors.d13232 : Colors.Placeholder,
+      tintColor: error ? Colors.d13232 : Colors.Black,
     },
   });
 };

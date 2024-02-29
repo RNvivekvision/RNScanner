@@ -37,15 +37,15 @@ const FontSize = {
   font40: normalize(40),
 };
 const FontFamily = {
-  Black: 'NotoSans-Black',
-  Bold: 'NotoSans-Bold',
-  ExtraBold: 'NotoSans-ExtraBold',
-  ExtraLight: 'NotoSans-ExtraLight',
-  Italic: 'NotoSans-Italic',
-  Light: 'NotoSans-Light',
-  Medium: 'NotoSans-Medium',
-  Regular: 'NotoSans-Regular',
-  SemiBold: 'NotoSans-SemiBold',
-  Thin: 'NotoSans-Thin',
+  Black: 'Poppins-Black',
+  Bold: 'Poppins-Bold',
+  ExtraBold: 'Poppins-ExtraBold',
+  ExtraLight: 'Poppins-ExtraLight',
+  Italic: 'Poppins-Italic',
+  Light: 'Poppins-Light',
+  Medium: 'Poppins-Medium',
+  Regular: 'Poppins-Regular',
+  SemiBold: 'Poppins-SemiBold',
+  Thin: 'Poppins-Thin',
 };
 export { FontSize, FontFamily };

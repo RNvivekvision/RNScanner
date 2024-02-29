@@ -1,7 +1,32 @@
-import { Alert, Linking } from 'react-native';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActionSheetIOS, Alert, Linking, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ALERT = ({ Title, Text, Buttons }) => Alert.alert(Title, Text, Buttons);
+const Options = ({ onPress }) => {
+  if (Platform.OS === 'ios') {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Cancel', 'Camera', 'Gallery'],
+        cancelButtonIndex: 0,
+      },
+      idx => onPress?.(idx),
+    );
+  } else {
+    Alert.alert(
+      'Add Photo!',
+      'Do you want to take a new photo using camera or choose from the gallery?',
+      [
+        {
+          text: 'Cancle',
+          onPress: () => onPress?.(0),
+          style: 'destructive',
+        },
+        { text: 'Camera', onPress: () => onPress?.(1) },
+        { text: 'Gallery', onPress: () => onPress?.(2) },
+      ],
+    );
+  }
+};
 
 const OpenUrl = url => Linking.openURL(url);
 
@@ -22,17 +47,12 @@ const getAppData = async () => {
   return JSON.parse(value);
 };
 
-const ToPercentage = ({ value, total }) => {
-  const Percentage = Math.floor((value * 100) / total);
-  return Percentage > 100 ? 100 : Percentage;
-};
-
 const Functions = {
   ALERT,
   OpenUrl,
   setAppData,
   getAppData,
-  ToPercentage,
+  Options,
 };
 
 export default Functions;

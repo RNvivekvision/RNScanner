@@ -1,7 +1,7 @@
 import { TransitionPresets } from '@react-navigation/stack';
 import { FontFamily } from '../Theme';
 const screenOptions = {
-  headerShown: true,
+  headerShown: false,
   headerTitleAlign: 'center',
   headerTitleStyle: {
     fontFamily: FontFamily.SemiBold,

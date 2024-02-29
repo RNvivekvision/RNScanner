@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp(1.2),
     marginVertical: hp(1),
     fontSize: FontSize.font16,
-    fontFamily: FontFamily.SemiBold,
+    fontFamily: FontFamily.Medium,
     color: Colors.Black,
   },
 });

@@ -7,13 +7,34 @@ import { Colors, hp, wp } from '../Theme';
 import { NavRoutes } from '../Navigation';
 import { RenderImages } from '../Components';
 import { Strings } from '../Constants';
+import { Functions } from '../Utils';
 
 const PhotoUpload = ({ navigation, route }) => {
   const code = route?.params?.code;
+  console.log({ code });
   const [State, setState] = useState({ Images: [] });
   const styles = useStyles();
 
-  const onUploadPress = async () => {
+  const methods = {
+    0: () => {},
+    1: () => openCamera(),
+    2: () => openGallery(),
+  };
+
+  const openGallery = async () => {
+    try {
+      const image = await ImageCropPicker.openPicker({
+        width: 300,
+        height: 400,
+      });
+      // console.log('Image -> ', JSON.stringify(image, null, 2));
+      setState(p => ({ ...p, Images: [...p.Images, image] }));
+    } catch (e) {
+      console.log('Error onUploadPress -> ', e);
+    }
+  };
+
+  const openCamera = async () => {
     try {
       const image = await ImageCropPicker.openCamera({
         width: 300,
@@ -41,14 +62,20 @@ const PhotoUpload = ({ navigation, route }) => {
   return (
     <View style={RNStyles.container}>
       <View style={styles.usernameConatiner}>
-        <RNText>{Strings.Username}</RNText>
-        {/* <RNText>{`${Strings.BarcodeID} : ${code || ''}`}</RNText> */}
-        <RNText>{Strings.BarcodeID}</RNText>
+        <View style={{ flex: 1 }}>
+          <RNText>{Strings.Username}</RNText>
+          <RNText numOfLines={2}>{'John Doe'}</RNText>
+        </View>
+
+        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <RNText>{Strings.BarcodeID}</RNText>
+          <RNText numOfLines={2}>{'5010415333162'}</RNText>
+        </View>
       </View>
 
       <RNButton
         title={Strings.UploadPhoto}
-        style={{ marginVertical: hp(6) }}
+        style={{ marginVertical: hp(5) }}
         onPress={onUploadPhotoPress}
       />
 
@@ -56,7 +83,9 @@ const PhotoUpload = ({ navigation, route }) => {
         <RNButton
           title={Strings.Upload}
           style={styles.upload}
-          onPress={onUploadPress}
+          onPress={() =>
+            Functions.Options({ onPress: index => methods[index]() })
+          }
         />
         <FlatList
           data={State.Images}
@@ -75,7 +104,9 @@ const useStyles = () => {
 
   return StyleSheet.create({
     usernameConatiner: {
-      ...RNStyles.flexRowBetween,
+      // ...RNStyles.flexRowBetween,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       paddingVertical: hp(2),
       paddingHorizontal: wp(4),
     },

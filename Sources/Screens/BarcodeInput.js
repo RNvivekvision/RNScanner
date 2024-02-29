@@ -5,8 +5,11 @@ import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
 import { NavRoutes } from '../Navigation';
 import { Scanner } from '../Components';
 import { Strings } from '../Constants';
+import { useSelector } from 'react-redux';
 
 const BarcodeInput = ({ navigation }) => {
+  const { user } = useSelector(({ UserReducer }) => UserReducer);
+  console.log({ user });
   const [State, setState] = useState({
     barcode: '',
     showScanner: false,
@@ -21,7 +24,7 @@ const BarcodeInput = ({ navigation }) => {
   const onSubmitPress = () => {
     setState(p => ({ ...p, submitPressed: true }));
     if (noErrors) {
-      navigation.navigate(NavRoutes.PhotoUpload);
+      navigation.navigate(NavRoutes.PhotoUpload, { code: State.barcode });
     }
   };
 

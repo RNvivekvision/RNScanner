@@ -1,2 +1,3 @@
 import usePermissions from './usePermissions';
-export { usePermissions };
+import useLocalStorage from './useLocalStorage';
+export { usePermissions, useLocalStorage };

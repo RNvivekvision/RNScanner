@@ -1,11 +1,13 @@
 const Strings = {
-  Login: 'Login',
+  Login: 'Log in',
   EnterBarCode: 'Enter Bar Code',
   Submit: 'Submit',
   OR: 'OR',
   ScanBarCode: 'Scan Bar Code',
   Username: 'Username',
+  Email: 'Email',
   Enteryourusername: 'Enter your username',
+  Enteryouremail: 'Enter your email',
   Password: 'Password',
   EnteryourPassword: 'Enter your Password',
   BarcodeID: 'Barcode ID',
@@ -15,6 +17,8 @@ const Strings = {
   BackToHome: 'Back To Home',
   NoCameraPermission: 'Please give camera permission to use device camera.',
   RequestPermission: 'Request Permission',
+  Google: 'Google',
+  Facebook: 'Facebook',
 };
 
 export default Strings;
