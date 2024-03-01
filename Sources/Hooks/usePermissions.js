@@ -8,11 +8,6 @@ const usePermissions = () => {
     gallery: null,
   });
 
-  useEffect(() => {
-    checkPermissions();
-    requestPermissions();
-  }, []);
-
   const checkPermissions = async () => {
     const camera = await checkPermission(PermissionsAndroid.PERMISSIONS.CAMERA);
     const microphone = await checkPermission(

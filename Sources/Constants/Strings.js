@@ -1,9 +1,11 @@
 const Strings = {
   Login: 'Log in',
-  EnterBarCode: 'Enter Bar Code',
+  EnterBarcodeCode: 'Enter Barcode code',
+  EnterBarcodeCodeHere: 'Enter Barcode code Here...',
   Submit: 'Submit',
-  OR: 'OR',
-  ScanBarCode: 'Scan Bar Code',
+  SubmitCode: 'Submit Code',
+  Or: 'Or',
+  ScanBarCode: 'Scan Barcode',
   Username: 'Username',
   Email: 'Email',
   Enteryourusername: 'Enter your username',
@@ -19,6 +21,8 @@ const Strings = {
   RequestPermission: 'Request Permission',
   Google: 'Google',
   Facebook: 'Facebook',
+  BarcodeScanner: 'Barcode Scanner',
+  PreviewUploadImages: 'Preview Upload Images',
 };
 
 export default Strings;

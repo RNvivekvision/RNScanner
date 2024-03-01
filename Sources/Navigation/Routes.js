@@ -2,7 +2,13 @@ import React, { useCallback, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavConfigs, NavRoutes } from './index';
-import { BarcodeInput, Login, PhotoUpload, UploadSuccess } from '../Screens';
+import {
+  BarcodeInput,
+  Login,
+  PhotoUpload,
+  ScanBarcode,
+  UploadSuccess,
+} from '../Screens';
 import { useLocalStorage } from '../Hooks';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -24,6 +30,7 @@ const Routes = () => {
         screenOptions={NavConfigs.screenOptions}>
         <Stack.Screen name={NavRoutes.Login} component={Login} />
         <Stack.Screen name={NavRoutes.BarcodeInput} component={BarcodeInput} />
+        <Stack.Screen name={NavRoutes.ScanBarcode} component={ScanBarcode} />
         <Stack.Screen name={NavRoutes.PhotoUpload} component={PhotoUpload} />
         <Stack.Screen
           name={NavRoutes.UploadSuccess}

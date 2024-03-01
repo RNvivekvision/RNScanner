@@ -11,6 +11,10 @@ const Images = {
   Google: require(ImagePath + 'Google' + png),
   Facebook: require(ImagePath + 'Facebook' + png),
   Back: require(ImagePath + 'Back' + png),
+  Upload: require(ImagePath + 'Upload' + png),
+  Camera: require(ImagePath + 'Camera' + png),
+  Gallery: require(ImagePath + 'Gallery' + png),
+  Flash: require(ImagePath + 'Flash' + png),
 };
 
 export default Images;

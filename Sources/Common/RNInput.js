@@ -56,8 +56,8 @@ const RNInput = React.forwardRef((props, ref) => {
 const styles = StyleSheet.create({
   input: {
     // flex: 1,
-    paddingHorizontal: wp(3),
-    paddingVertical: hp(1.2),
+    paddingHorizontal: wp(5),
+    paddingVertical: hp(1.5),
     marginVertical: hp(1),
     fontSize: FontSize.font16,
     fontFamily: FontFamily.Medium,

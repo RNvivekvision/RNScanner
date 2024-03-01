@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import { RNButton, RNStyles, RNText } from '../Common';
-import { Colors, hp, wp } from '../Theme';
+import {
+  RNButton,
+  RNFloating,
+  RNHeader,
+  RNInput,
+  RNStyles,
+  RNText,
+} from '../Common';
+import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
 import { NavRoutes } from '../Navigation';
 import { RenderImages } from '../Components';
-import { Strings } from '../Constants';
-import { Functions } from '../Utils';
+import { Images, Strings } from '../Constants';
 
 const PhotoUpload = ({ navigation, route }) => {
   const code = route?.params?.code;
-  console.log({ code });
+  // console.log('PhotoUpload code -> ', code);
   const [State, setState] = useState({ Images: [] });
-  const styles = useStyles();
+  const styles = useStyles({});
 
   const methods = {
     0: () => {},
@@ -59,73 +71,103 @@ const PhotoUpload = ({ navigation, route }) => {
     }
   };
 
+  const ListHeaderComponent = ({}) => {
+    return (
+      <>
+        <RNInput
+          placeholder={Strings.EnterBarcodeCodeHere}
+          style={styles.input}
+          value={Strings.Username}
+          editable={false}
+        />
+        <RNInput
+          placeholder={Strings.EnterBarcodeCodeHere}
+          style={styles.input}
+          value={code || Strings.BarcodeID}
+          editable={false}
+        />
+        <RNText style={styles.heading}>{Strings.UploadPhoto}</RNText>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={openGallery}
+          style={styles.uploadPhoto}>
+          <Image
+            source={Images.Upload}
+            resizeMode={'contain'}
+            style={styles.uploadIcon}
+          />
+        </TouchableOpacity>
+        {State.Images?.length > 0 && (
+          <RNText style={styles.heading}>{Strings.PreviewUploadImages}</RNText>
+        )}
+      </>
+    );
+  };
+
   return (
     <View style={RNStyles.container}>
-      <View style={styles.usernameConatiner}>
-        <View style={{ flex: 1 }}>
-          <RNText>{Strings.Username}</RNText>
-          <RNText numOfLines={2}>{'John Doe'}</RNText>
-        </View>
+      <RNHeader title={Strings.UploadPhoto} />
 
-        <View style={{ flex: 1, alignItems: 'flex-end' }}>
-          <RNText>{Strings.BarcodeID}</RNText>
-          <RNText numOfLines={2}>{'5010415333162'}</RNText>
-        </View>
-      </View>
+      <FlatList
+        data={State.Images}
+        keyExtractor={(v, i) => String(i)}
+        numColumns={3}
+        showsVerticalScrollIndicator={true}
+        ListHeaderComponent={() => <ListHeaderComponent />}
+        contentContainerStyle={styles.contentContainerStyle}
+        renderItem={({ item }) => <RenderImages item={item} />}
+      />
 
       <RNButton
         title={Strings.UploadPhoto}
-        style={{ marginVertical: hp(5) }}
+        style={styles.uploadPhotoButton}
         onPress={onUploadPhotoPress}
       />
-
-      <View style={styles.photoContainer}>
-        <RNButton
-          title={Strings.Upload}
-          style={styles.upload}
-          onPress={() =>
-            Functions.Options({ onPress: index => methods[index]() })
-          }
-        />
-        <FlatList
-          data={State.Images}
-          keyExtractor={(v, i) => String(i)}
-          numColumns={3}
-          contentContainerStyle={styles.contentContainerStyle}
-          renderItem={({ item }) => <RenderImages item={item} />}
-        />
-      </View>
+      <RNFloating icon={Images.Camera} onPress={openCamera} />
     </View>
   );
 };
 
-const useStyles = () => {
+const useStyles = ({}) => {
   const inset = useSafeAreaInsets();
 
   return StyleSheet.create({
-    usernameConatiner: {
-      // ...RNStyles.flexRowBetween,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingVertical: hp(2),
+    contentContainerStyle: {
+      paddingBottom: inset.bottom + hp(1),
+      paddingTop: hp(2),
       paddingHorizontal: wp(4),
     },
-    photoContainer: {
-      flex: 1,
-      borderTopWidth: 1,
-      borderTopColor: Colors.Placeholder,
+    input: {
+      backgroundColor: Colors.EEF7FF,
+      borderRadius: wp(2),
+      fontSize: FontSize.font12,
+      fontFamily: FontFamily.Medium,
+      color: Colors.Black,
     },
-    upload: {
+    heading: {
+      fontSize: FontSize.font12,
+      fontFamily: FontFamily.Medium,
+      paddingVertical: hp(2),
+    },
+    uploadPhoto: {
+      ...RNStyles.center,
+      borderWidth: wp(0.3),
+      borderColor: Colors.Black,
+      borderStyle: 'dashed',
+      borderRadius: wp(3),
+      height: hp(10),
+      backgroundColor: Colors.EEF7FF,
+    },
+    uploadIcon: {
+      width: wp(7),
+      height: wp(7),
+    },
+    uploadPhotoButton: {
       position: 'absolute',
-      bottom: inset.bottom + hp(2),
+      bottom: inset.bottom + hp(1),
+      left: 0,
       right: 0,
-      zIndex: 1,
-      width: '30%',
-    },
-    contentContainerStyle: {
-      paddingBottom: inset.bottom + hp(2),
-      paddingVertical: hp(0.5),
-      paddingHorizontal: wp(2),
+      marginHorizontal: wp(6),
     },
   });
 };

@@ -19,6 +19,7 @@ const Colors = {
   N64748B: '#64748B',
   F1F5F9: '#F1F5F9',
   N828282: '#828282',
+  EEF7FF: '#EEF7FF',
 };
 
 export default Colors;

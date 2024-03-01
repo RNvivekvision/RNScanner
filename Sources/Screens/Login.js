@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -88,7 +89,7 @@ const Login = ({ navigation }) => {
               secureTextEntry={State.passwordSecure}
               returnKeyType={'done'}
               onChangeText={v => setState(p => ({ ...p, password: v }))}
-              onSubmitEditing={onLoginPress}
+              onSubmitEditing={Keyboard.dismiss}
               error={errorPassword}
               icon={State.passwordSecure ? Images.Show : Images.Hide}
               onIconPress={() =>

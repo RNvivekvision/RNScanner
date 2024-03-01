@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { RNButton, RNInput, RNStyles, RNText, SCInput } from '../Common';
+import React, { useEffect, useState } from 'react';
+import {
+  Image,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { RNButton, RNInput, RNStyles, RNText } from '../Common';
 import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
+import { RNHeader } from '../Common';
 import { NavRoutes } from '../Navigation';
 import { Scanner } from '../Components';
-import { Strings } from '../Constants';
-import { useSelector } from 'react-redux';
+import { Images, Strings } from '../Constants';
+import { usePermissions } from '../Hooks';
+import { useIsFocused } from '@react-navigation/native';
 
 const BarcodeInput = ({ navigation }) => {
-  const { user } = useSelector(({ UserReducer }) => UserReducer);
-  console.log({ user });
+  const isFocused = useIsFocused();
+  const { requestPermissions } = usePermissions();
   const [State, setState] = useState({
     barcode: '',
     showScanner: false,
     submitPressed: false,
   });
+
+  const ResetState = () => {
+    setState(p => ({
+      barcode: '',
+      showScanner: false,
+      submitPressed: false,
+    }));
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      ResetState();
+    }
+  }, [isFocused]);
+
   const errorBarcode =
     State.submitPressed &&
     (State.barcode.length === 0 || State.barcode.length < 4);
@@ -28,72 +52,90 @@ const BarcodeInput = ({ navigation }) => {
     }
   };
 
-  const onScanBarcodePress = () => {
-    setState(p => ({ ...p, showScanner: true }));
+  const onScanBarcodePress = async () => {
+    await requestPermissions();
+    // setState(p => ({ ...p, showScanner: true }));
+    navigation.navigate(NavRoutes.ScanBarcode);
   };
 
-  const closeScanner = () => {
-    setState(p => ({ ...p, showScanner: false }));
-  };
+  // const closeScanner = () => {
+  //   setState(p => ({ ...p, showScanner: false }));
+  // };
 
   const onCodeFound = code => {
-    closeScanner();
+    // closeScanner();
     navigation.navigate(NavRoutes.PhotoUpload, { code });
   };
 
   return (
-    <View style={styles.container}>
-      <Scanner
-        visible={State.showScanner}
-        onClose={closeScanner}
-        onCodeFound={onCodeFound}
-      />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={RNStyles.container}>
+        <ScrollView>
+          <RNHeader title={Strings.BarcodeScanner} LeftIcon={null} />
 
-      <View>
-        <RNInput
-          placeholder={Strings.EnterBarCode}
-          placeholderTextColor={errorBarcode && Colors.d13232}
-          style={styles.input}
-          value={State.barcode}
-          onChangeText={v => setState(p => ({ ...p, barcode: v }))}
-        />
+          <Image
+            source={Images.barcodeLogo}
+            resizeMode={'contain'}
+            style={styles.barcodeLogo}
+          />
 
-        <RNButton
-          title={Strings.Submit}
-          style={styles.submit}
-          onPress={onSubmitPress}
-        />
+          <RNText pLeft={wp(4)} family={FontFamily.Medium}>
+            {Strings.EnterBarcodeCode}
+          </RNText>
+          <RNInput
+            placeholder={Strings.EnterBarcodeCodeHere}
+            placeholderTextColor={errorBarcode ? Colors.d13232 : Colors.Black}
+            style={styles.input}
+            value={State.barcode}
+            onChangeText={v => setState(p => ({ ...p, barcode: v }))}
+          />
+
+          <RNButton
+            title={Strings.SubmitCode}
+            style={styles.button}
+            onPress={onSubmitPress}
+          />
+          <RNText style={styles.OR}>{Strings.Or}</RNText>
+          <RNButton
+            title={Strings.ScanBarCode}
+            style={styles.button}
+            onPress={onScanBarcodePress}
+          />
+
+          {/* <Scanner
+          visible={State.showScanner}
+          onClose={closeScanner}
+          onCodeFound={onCodeFound}
+        /> */}
+        </ScrollView>
       </View>
-
-      <RNText style={styles.OR}>{Strings.OR}</RNText>
-
-      <RNButton title={Strings.ScanBarCode} onPress={onScanBarcodePress} />
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const useStyles = ({ error = true }) => {
   return StyleSheet.create({
-    container: {
-      ...RNStyles.container,
-      paddingTop: hp(3),
+    barcodeLogo: {
+      width: '80%',
+      height: hp(30),
+      marginVertical: hp(4),
+      alignSelf: 'center',
     },
     OR: {
       alignSelf: 'center',
-      paddingVertical: hp(8),
-      fontFamily: FontFamily.SemiBold,
+      paddingVertical: hp(2),
+      fontSize: FontSize.font12,
     },
     input: {
-      borderWidth: 1,
-      borderColor: error ? Colors.d13232 : Colors.Placeholder,
-      marginHorizontal: wp(6),
+      backgroundColor: Colors.EEF7FF,
+      marginHorizontal: wp(4),
       borderRadius: wp(2),
-      fontSize: FontSize.font14,
+      fontSize: FontSize.font12,
+      fontFamily: error ? FontFamily.Medium : FontFamily.ExtraLight,
+      color: Colors.Black,
     },
-    submit: {
-      alignSelf: 'flex-end',
-      width: '33%',
-      marginRight: wp(6),
+    button: {
+      marginHorizontal: wp(6),
     },
   });
 };

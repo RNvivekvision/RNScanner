@@ -11,5 +11,6 @@ export { default as RNImage } from './RNImage';
 export { default as RNGradient } from './RNGradient';
 export { default as RNStyles } from './RNStyles';
 export { default as RNModal } from './RNModal';
+export { default as RNFloating } from './RNFloating';
 
 export { default as SCInput } from './SCInput';

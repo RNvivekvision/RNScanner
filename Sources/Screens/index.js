@@ -1,5 +1,14 @@
 import Login from './Login';
 import BarcodeInput from './BarcodeInput';
-import UploadSuccess from './UploadSuccess';
+import ScanBarcode from './ScanBarcode';
 import PhotoUpload from './PhotoUpload';
-export { Login, BarcodeInput, UploadSuccess, PhotoUpload };
+import TakePhoto from './TakePhoto';
+import UploadSuccess from './UploadSuccess';
+export {
+  Login,
+  BarcodeInput,
+  ScanBarcode,
+  UploadSuccess,
+  TakePhoto,
+  PhotoUpload,
+};

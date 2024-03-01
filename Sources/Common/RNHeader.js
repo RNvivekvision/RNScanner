@@ -1,79 +1,66 @@
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Colors, FontFamily, FontSize, hp, isIOS, wp } from '../Theme';
+import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
+import { Images } from '../Constants';
 import RNText from './RNText';
 import RNStyles from './RNStyles';
 
 const RNHeader = ({
   title,
   onLeftPress,
-  LeftIcon,
-  onRightPress,
-  RightIcon,
+  LeftIcon = Images.Back,
   containerStyle,
   titleStyle,
 }) => {
   const navigation = useNavigation();
+  const styles = useStyles();
   return (
     <View style={[styles.Container, containerStyle]}>
-      {LeftIcon ? (
+      {LeftIcon && (
         <TouchableOpacity
           onPress={() => (onLeftPress ? onLeftPress?.() : navigation.goBack())}
           style={styles.Left}>
-          <Image
-            source={LeftIcon}
-            resizeMode={'contain'}
-            style={RNStyles.image90}
-          />
+          <Image source={LeftIcon} resizeMode={'contain'} style={styles.icon} />
         </TouchableOpacity>
-      ) : (
-        <View style={styles.Left} />
       )}
       <RNText style={[styles.title, titleStyle]}>{title}</RNText>
-      {RightIcon ? (
-        <TouchableOpacity onPress={onRightPress} style={styles.Right}>
-          <Image
-            source={RightIcon}
-            resizeMode={'contain'}
-            style={RNStyles.image90}
-          />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.Right} />
-      )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  Container: {
-    ...RNStyles.flexRowBetween,
-    backgroundColor: Colors.White,
-    paddingVertical: hp(1.5),
-    paddingHorizontal: wp(3),
-    paddingTop: isIOS ? hp(6) : hp(1.5),
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.Placeholder,
-  },
-  Left: {
-    ...RNStyles.center,
-    width: wp(6),
-    height: wp(6),
-  },
-  title: {
-    flex: 1,
-    textAlign: 'center',
-    paddingHorizontal: hp(1),
-    marginHorizontal: hp(1),
-    fontSize: FontSize.font18,
-    fontFamily: FontFamily.SemiBold,
-  },
-  Right: {
-    ...RNStyles.center,
-    width: wp(6),
-    height: wp(6),
-  },
-});
+const useStyles = () => {
+  const inset = useSafeAreaInsets();
+
+  return StyleSheet.create({
+    Container: {
+      ...RNStyles.flexRowBetween,
+      backgroundColor: Colors.Primary,
+      paddingVertical: hp(1.5),
+      paddingHorizontal: wp(3),
+      paddingTop: inset.top + hp(1.5),
+      borderBottomWidth: 1,
+      borderBottomColor: Colors.Placeholder,
+    },
+    Left: {
+      ...RNStyles.center,
+      width: wp(7),
+      height: wp(7),
+      marginHorizontal: hp(0.5),
+    },
+    title: {
+      flex: 1,
+      paddingHorizontal: hp(1),
+      fontSize: FontSize.font15,
+      fontFamily: FontFamily.Medium,
+      color: Colors.White,
+    },
+    icon: {
+      ...RNStyles.image90,
+      tintColor: Colors.White,
+    },
+  });
+};
 
 export default RNHeader;
