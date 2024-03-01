@@ -8,7 +8,7 @@ const isMobileNumberValid = MobileNumber => {
   return regEx.test(MobileNumber) && MobileNumber.length > 9;
 };
 
-const isPasswordValid = Password => Password.length > 7;
+const isPasswordValid = Password => Password.length > 3;
 
 const isSamePasswords = (Password, ConfirmPassword) =>
   Password === ConfirmPassword;

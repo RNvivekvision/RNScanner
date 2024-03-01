@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
+import { Colors, FontSize, hp, wp } from '../Theme';
 import RNInput from './RNInput';
 import RNStyles from './RNStyles';
 import RNText from './RNText';
@@ -53,7 +53,7 @@ const useStyles = ({ error }) => {
       flex: 1,
       marginVertical: 0,
       paddingHorizontal: 0,
-      color: Colors.N054579,
+      color: error ? Colors.d13232 : Colors.N054579,
     },
     IconContainer: {
       ...RNStyles.center,

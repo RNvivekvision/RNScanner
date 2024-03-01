@@ -20,37 +20,46 @@ import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
 import { setUser } from '../Redux/Actions';
 import { Images, Strings } from '../Constants';
 import { NavRoutes } from '../Navigation';
-import { Functions } from '../Utils';
+import { Functions, Validation } from '../Utils';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const passwordRef = useRef();
   const styles = useStyles();
   const [State, setState] = useState({
-    username: '',
+    email: '',
     password: '',
     passwordSecure: true,
     submitPressed: false,
+    isLoading: false,
   });
 
-  const errorUsername =
+  const errorEmail =
     State.submitPressed &&
-    (State.username.length === 0 || State.username.length < 4);
+    (State.email.length === 0 || !Validation.isEmailValid(State.email));
   const errorPassword =
     State.submitPressed &&
-    (State.password.length === 0 || State.password.length < 4);
-  const noErrors = State.username.length > 3 && State.password.length > 3;
+    (State.password.length === 0 ||
+      !Validation.isPasswordValid(State.password));
+  const noErrors =
+    Validation.isEmailValid(State.email) &&
+    Validation.isPasswordValid(State.password);
 
   const onLoginPress = async () => {
     setState(p => ({ ...p, submitPressed: true }));
     if (!noErrors) return;
-    const user = { username: State.username, password: State.password };
+    const user = { email: State.email, password: State.password };
+    setState(p => ({ ...p, isLoading: true }));
     try {
       await Functions.setAppData({ user });
       dispatch(setUser(user));
       navigation.replace(NavRoutes.BarcodeInput);
     } catch (e) {
       console.log('Error onSubmitPress -> ', e);
+    } finally {
+      setTimeout(() => {
+        setState(p => ({ ...p, isLoading: false }));
+      }, 3000);
     }
   };
 
@@ -75,10 +84,11 @@ const Login = ({ navigation }) => {
             <SCInput
               title={Strings.Email}
               placeholder={Strings.Enteryouremail}
-              value={State.username}
-              onChangeText={v => setState(p => ({ ...p, username: v }))}
+              value={State.email}
+              keyboardType={'email-address'}
+              onChangeText={v => setState(p => ({ ...p, email: v }))}
               onSubmitEditing={() => passwordRef.current.focus()}
-              error={errorUsername}
+              error={errorEmail}
             />
 
             <SCInput
@@ -115,6 +125,8 @@ const Login = ({ navigation }) => {
             </View>
 
             <RNButton
+              disable={State.isLoading}
+              isLoading={State.isLoading}
               title={Strings.Login}
               style={styles.login}
               onPress={onLoginPress}
@@ -134,20 +146,18 @@ const Login = ({ navigation }) => {
                 title={Strings.Google}
                 style={styles.loginWith}
                 textStyle={styles.loginwithText}
-                onPress={onLoginPress}
               />
               <RNButton
                 icon={Images.Facebook}
                 title={Strings.Facebook}
                 style={styles.loginWith}
                 textStyle={styles.loginwithText}
-                onPress={onLoginPress}
               />
             </View>
 
             <View style={styles.DontHaveAccount}>
               <RNText size={FontSize.font12} color={Colors.N475569}>
-                {'Don’t have account? '}
+                {`Don't have account? `}
               </RNText>
 
               <TouchableOpacity activeOpacity={0.6}>
@@ -179,7 +189,7 @@ const useStyles = () => {
     logo: {
       width: wp(25),
       height: hp(5),
-      marginTop: hp(3),
+      marginTop: hp(2),
     },
     loginLogo: {
       width: wp(53),

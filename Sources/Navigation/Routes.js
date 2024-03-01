@@ -7,6 +7,7 @@ import {
   Login,
   PhotoUpload,
   ScanBarcode,
+  TakePhoto,
   UploadSuccess,
 } from '../Screens';
 import { useLocalStorage } from '../Hooks';
@@ -22,6 +23,7 @@ const Routes = () => {
   }, []);
 
   const Screens = useCallback(() => {
+    console.log('Screens called......');
     return (
       <Stack.Navigator
         initialRouteName={
@@ -32,6 +34,7 @@ const Routes = () => {
         <Stack.Screen name={NavRoutes.BarcodeInput} component={BarcodeInput} />
         <Stack.Screen name={NavRoutes.ScanBarcode} component={ScanBarcode} />
         <Stack.Screen name={NavRoutes.PhotoUpload} component={PhotoUpload} />
+        <Stack.Screen name={NavRoutes.TakePhoto} component={TakePhoto} />
         <Stack.Screen
           name={NavRoutes.UploadSuccess}
           component={UploadSuccess}

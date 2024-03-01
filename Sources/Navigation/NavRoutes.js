@@ -1,9 +1,10 @@
 const NavRoutes = {
   Login: 'Login',
   BarcodeInput: 'Barcode Input',
-  PhotoUpload: 'Photo Upload',
-  UploadSuccess: 'Upload Success',
   ScanBarcode: 'Scan Barcode',
+  PhotoUpload: 'Photo Upload',
+  TakePhoto: 'Take Photo',
+  UploadSuccess: 'Upload Success',
 };
 
 export default NavRoutes;

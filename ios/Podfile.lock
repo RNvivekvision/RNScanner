@@ -1132,6 +1132,9 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
+  - RNQrGenerator (1.4.0):
+    - React
+    - ZXingObjC
   - RNScreens (3.29.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1143,6 +1146,9 @@ PODS:
     - React-callinvoker
     - React-Core
   - Yoga (1.14.0)
+  - ZXingObjC (3.6.9):
+    - ZXingObjC/All (= 3.6.9)
+  - ZXingObjC/All (3.6.9)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
@@ -1223,6 +1229,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNQrGenerator (from `../node_modules/rn-qr-generator`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1243,6 +1250,7 @@ SPEC REPOS:
     - OpenSSL-Universal
     - SocketRocket
     - TOCropViewController
+    - ZXingObjC
 
 EXTERNAL SOURCES:
   boost:
@@ -1352,6 +1360,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNQrGenerator:
+    :path: "../node_modules/rn-qr-generator"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   VisionCamera:
@@ -1425,11 +1435,13 @@ SPEC CHECKSUMS:
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNGestureHandler: deda62b8339496ba721a45e0f3e2d7a319932cee
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
+  RNQrGenerator: 1676221c08bfabec978242989c733810dad20959
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   VisionCamera: 7a5c87805b13adaaa557132b44879ed1e1e39786
   Yoga: 4f53dc50008d626fa679c7a1cb4bed898f8c0bde
+  ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
 PODFILE CHECKSUM: 08a7e1642ca886174063ea3c3d88dddfae8aca38
 

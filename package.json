@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "refresh": "yarn install && yarn run podInstall && yarn run androidClean && yarn run openXcode",
+    "refresh": "yarn install && yarn run podInstall && yarn run openXcode && yarn run androidClean",
     "android": "npx react-native run-android",
     "androidClean": "cd android && ./gradlew clean && cd ..",
     "androidUpdate": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && rm -rf ./android/app/src/main/res/drawable-* && rm -rf ./android/app/src/main/res/raw",
@@ -31,7 +31,8 @@
     "react-native-screens": "^3.29.0",
     "react-native-splash-screen": "^3.3.0",
     "react-native-vision-camera": "^3.9.0",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "rn-qr-generator": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

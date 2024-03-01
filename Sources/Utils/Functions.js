@@ -1,34 +1,15 @@
-import { ActionSheetIOS, Alert, Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
-const ALERT = ({ Title, Text, Buttons }) => Alert.alert(Title, Text, Buttons);
-const Options = ({ onPress }) => {
-  if (Platform.OS === 'ios') {
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ['Cancel', 'Camera', 'Gallery'],
-        cancelButtonIndex: 0,
-      },
-      idx => onPress?.(idx),
-    );
-  } else {
-    Alert.alert(
-      'Add Photo!',
-      'Do you want to take a new photo using camera or choose from the gallery?',
-      [
-        {
-          text: 'Cancle',
-          onPress: () => onPress?.(0),
-          style: 'destructive',
-        },
-        { text: 'Camera', onPress: () => onPress?.(1) },
-        { text: 'Gallery', onPress: () => onPress?.(2) },
-      ],
-    );
-  }
+const openGallery = async () => {
+  const photo = await ImageCropPicker.openPicker({
+    width: 300,
+    height: 400,
+    cropping: true,
+    mediaType: 'photo',
+  });
+  return photo;
 };
-
-const OpenUrl = url => Linking.openURL(url);
 
 const setAppData = async data => {
   const previousValue = await getAppData();
@@ -48,11 +29,9 @@ const getAppData = async () => {
 };
 
 const Functions = {
-  ALERT,
-  OpenUrl,
   setAppData,
   getAppData,
-  Options,
+  openGallery,
 };
 
 export default Functions;

@@ -23,6 +23,8 @@ const Strings = {
   Facebook: 'Facebook',
   BarcodeScanner: 'Barcode Scanner',
   PreviewUploadImages: 'Preview Upload Images',
+  TakePhoto: 'Take Photo',
+  ScanTheCode: 'Scan The Code',
 };
 
 export default Strings;

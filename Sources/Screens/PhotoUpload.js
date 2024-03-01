@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FlatList,
   Image,
@@ -7,7 +7,13 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import ImageCropPicker from 'react-native-image-crop-picker';
+import { useDispatch, useSelector } from 'react-redux';
+import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
+import { NavRoutes } from '../Navigation';
+import { RenderImages } from '../Components';
+import { Strings, Images as PngImages } from '../Constants';
+import { addPhoto } from '../Redux/Actions';
+import { Functions } from '../Utils';
 import {
   RNButton,
   RNFloating,
@@ -16,54 +22,29 @@ import {
   RNStyles,
   RNText,
 } from '../Common';
-import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
-import { NavRoutes } from '../Navigation';
-import { RenderImages } from '../Components';
-import { Images, Strings } from '../Constants';
 
 const PhotoUpload = ({ navigation, route }) => {
+  const { Images } = useSelector(
+    ({ UploadPhotoReducer }) => UploadPhotoReducer,
+  );
+  const dispatch = useDispatch();
   const code = route?.params?.code;
-  // console.log('PhotoUpload code -> ', code);
-  const [State, setState] = useState({ Images: [] });
   const styles = useStyles({});
-
-  const methods = {
-    0: () => {},
-    1: () => openCamera(),
-    2: () => openGallery(),
-  };
 
   const openGallery = async () => {
     try {
-      const image = await ImageCropPicker.openPicker({
-        width: 300,
-        height: 400,
-      });
-      // console.log('Image -> ', JSON.stringify(image, null, 2));
-      setState(p => ({ ...p, Images: [...p.Images, image] }));
-    } catch (e) {
-      console.log('Error onUploadPress -> ', e);
-    }
-  };
-
-  const openCamera = async () => {
-    try {
-      const image = await ImageCropPicker.openCamera({
-        width: 300,
-        height: 400,
-      });
-      // console.log('Image -> ', JSON.stringify(image, null, 2));
-      setState(p => ({ ...p, Images: [...p.Images, image] }));
+      const photo = await Functions.openGallery();
+      console.log('photo -> ', JSON.stringify(photo, null, 2));
+      dispatch(addPhoto(photo));
     } catch (e) {
       console.log('Error onUploadPress -> ', e);
     }
   };
 
   const onUploadPhotoPress = async () => {
-    if (State.Images.length === 0) {
+    if (Images.length === 0) {
       return alert('Please select image.');
     }
-
     try {
       navigation.navigate(NavRoutes.UploadSuccess);
     } catch (e) {
@@ -74,6 +55,24 @@ const PhotoUpload = ({ navigation, route }) => {
   const ListHeaderComponent = ({}) => {
     return (
       <>
+        <RNText
+          align={'center'}
+          size={FontSize.font18}
+          family={FontFamily.SemiBold}>
+          {Strings.UploadPhoto}
+        </RNText>
+
+        <RNText
+          pVertical={hp(2)}
+          align={'center'}
+          size={FontSize.font12}
+          color={Colors.N475569}
+          style={{ width: '80%', alignSelf: 'center' }}>
+          {
+            'Upload Your barcode photo for scanning please Make sure photo is clean.'
+          }
+        </RNText>
+
         <RNInput
           placeholder={Strings.EnterBarcodeCodeHere}
           style={styles.input}
@@ -92,12 +91,12 @@ const PhotoUpload = ({ navigation, route }) => {
           onPress={openGallery}
           style={styles.uploadPhoto}>
           <Image
-            source={Images.Upload}
+            source={PngImages.Upload}
             resizeMode={'contain'}
             style={styles.uploadIcon}
           />
         </TouchableOpacity>
-        {State.Images?.length > 0 && (
+        {Images?.length > 0 && (
           <RNText style={styles.heading}>{Strings.PreviewUploadImages}</RNText>
         )}
       </>
@@ -107,9 +106,8 @@ const PhotoUpload = ({ navigation, route }) => {
   return (
     <View style={RNStyles.container}>
       <RNHeader title={Strings.UploadPhoto} />
-
       <FlatList
-        data={State.Images}
+        data={Images}
         keyExtractor={(v, i) => String(i)}
         numColumns={3}
         showsVerticalScrollIndicator={true}
@@ -117,13 +115,15 @@ const PhotoUpload = ({ navigation, route }) => {
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item }) => <RenderImages item={item} />}
       />
-
       <RNButton
         title={Strings.UploadPhoto}
         style={styles.uploadPhotoButton}
         onPress={onUploadPhotoPress}
       />
-      <RNFloating icon={Images.Camera} onPress={openCamera} />
+      <RNFloating
+        icon={PngImages.Camera}
+        onPress={() => navigation.navigate(NavRoutes.TakePhoto)}
+      />
     </View>
   );
 };
@@ -133,7 +133,7 @@ const useStyles = ({}) => {
 
   return StyleSheet.create({
     contentContainerStyle: {
-      paddingBottom: inset.bottom + hp(1),
+      paddingBottom: inset.bottom + hp(8),
       paddingTop: hp(2),
       paddingHorizontal: wp(4),
     },

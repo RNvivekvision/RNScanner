@@ -1,2 +1,3 @@
 import UserReducer from './UserReducer';
-export { UserReducer };
+import UploadPhotoReducer from './UploadPhotoReducer';
+export { UserReducer, UploadPhotoReducer };

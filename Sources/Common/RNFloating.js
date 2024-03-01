@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, hp, wp } from '../Theme';
 import RNStyles from './RNStyles';
 
-const size = wp(15);
+const size = wp(13);
 
 const RNFloating = ({ icon, onPress, containerStyle, iconStyle }) => {
   const styles = useStyles();
@@ -35,15 +35,13 @@ const useStyles = () => {
       width: size,
       height: size,
       position: 'absolute',
-      zIndex: 11111111,
-      bottom: inset.bottom + hp(10),
+      bottom: inset.bottom + hp(12),
       right: wp(6),
       backgroundColor: Colors.Primary,
       borderRadius: 100,
     },
     icon: {
-      width: wp(8),
-      height: wp(8),
+      ...RNStyles.image60,
     },
   });
 };
