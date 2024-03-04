@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   Image,
@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
 import { NavRoutes } from '../Navigation';
-import { RenderImages } from '../Components';
+import { RenderImages, UploadSuccess } from '../Components';
 import { Strings, Images as PngImages } from '../Constants';
 import { addPhoto } from '../Redux/Actions';
 import { Functions } from '../Utils';
@@ -24,6 +24,10 @@ import {
 } from '../Common';
 
 const PhotoUpload = ({ navigation, route }) => {
+  const [State, setState] = useState({
+    showUploadSuccess: false,
+    buttonLoading: false,
+  });
   const { Images } = useSelector(
     ({ UploadPhotoReducer }) => UploadPhotoReducer,
   );
@@ -45,8 +49,12 @@ const PhotoUpload = ({ navigation, route }) => {
     if (Images.length === 0) {
       return alert('Please select image.');
     }
+    setState(p => ({ ...p, buttonLoading: true }));
+
     try {
-      navigation.navigate(NavRoutes.UploadSuccess);
+      setTimeout(() => {
+        setState(p => ({ ...p, showUploadSuccess: true }));
+      }, 1500);
     } catch (e) {
       console.log('Error onUploadPhotoPress -> ', e);
     }
@@ -68,9 +76,7 @@ const PhotoUpload = ({ navigation, route }) => {
           size={FontSize.font12}
           color={Colors.N475569}
           style={{ width: '80%', alignSelf: 'center' }}>
-          {
-            'Upload Your barcode photo for scanning please Make sure photo is clean.'
-          }
+          {Strings.UploadPhotoDescription}
         </RNText>
 
         <RNInput
@@ -106,6 +112,7 @@ const PhotoUpload = ({ navigation, route }) => {
   return (
     <View style={RNStyles.container}>
       <RNHeader title={Strings.UploadPhoto} />
+
       <FlatList
         data={Images}
         keyExtractor={(v, i) => String(i)}
@@ -115,11 +122,20 @@ const PhotoUpload = ({ navigation, route }) => {
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item }) => <RenderImages item={item} />}
       />
+
+      <UploadSuccess
+        visible={State.showUploadSuccess}
+        onClose={() => setState(p => ({ ...p, showUploadSuccess: false }))}
+      />
+
       <RNButton
+        disable={State.buttonLoading}
+        isLoading={State.buttonLoading}
         title={Strings.UploadPhoto}
         style={styles.uploadPhotoButton}
         onPress={onUploadPhotoPress}
       />
+
       <RNFloating
         icon={PngImages.Camera}
         onPress={() => navigation.navigate(NavRoutes.TakePhoto)}

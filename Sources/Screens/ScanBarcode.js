@@ -5,13 +5,13 @@ import {
   useCameraDevice,
   useCameraPermission,
 } from 'react-native-vision-camera';
-import { RNButton, RNHeader, RNLoader, RNStyles } from '../Common';
+import { RNButton, RNHeader, RNLoader, RNStyles, RNText } from '../Common';
 import { NoCameraPermission } from '../Components';
 import { Images, Strings } from '../Constants';
 import { NavRoutes } from '../Navigation';
 import { useIsFocused } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Colors, hp, wp } from '../Theme';
+import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
 import { Functions } from '../Utils';
 import RNQRGenerator from 'rn-qr-generator';
 
@@ -98,7 +98,12 @@ const ScanBarcode = ({ navigation }) => {
             />
           )}
           <View style={styles.overlay}>
-            <View style={{ flex: 1 }} />
+            <RNText style={styles.title}>{Strings.ScanBarCode}</RNText>
+            <RNText style={styles.description}>
+              {Strings.ScanBarCodeDescription}
+            </RNText>
+
+            <Image source={Images.ScannerFrame} style={styles.frame} />
 
             <View style={styles.flashContainer}>
               <TouchableOpacity
@@ -146,6 +151,27 @@ const useStyles = () => {
   const inset = useSafeAreaInsets();
 
   return StyleSheet.create({
+    title: {
+      textAlign: 'center',
+      fontSize: FontSize.font18,
+      fontFamily: FontFamily.SemiBold,
+      paddingTop: hp(4),
+      color: Colors.White,
+    },
+    description: {
+      width: '80%',
+      alignSelf: 'center',
+      fontSize: FontSize.font12,
+      color: Colors.N475569,
+      textAlign: 'center',
+      paddingBottom: hp(4),
+    },
+    frame: {
+      width: wp(80),
+      height: wp(80),
+      alignSelf: 'center',
+      resizeMode: 'stretch',
+    },
     camera: {
       position: 'absolute',
       top: 0,

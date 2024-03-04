@@ -112,14 +112,14 @@ const Login = ({ navigation }) => {
                 <View style={RNStyles.flexRow}>
                   <View style={styles.Box} />
                   <RNText size={FontSize.font12} color={Colors.N475569}>
-                    {'Remember me'}
+                    {Strings.Rememberme}
                   </RNText>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity activeOpacity={0.6}>
                 <RNText size={FontSize.font12} color={Colors.N054579}>
-                  {'Forgot Password ?'}
+                  {Strings.ForgotPassword}
                 </RNText>
               </TouchableOpacity>
             </View>
@@ -137,7 +137,7 @@ const Login = ({ navigation }) => {
               pTop={hp(2)}
               size={FontSize.font12}
               color={Colors.N64748B}>
-              {'Or continue with'}
+              {Strings.Orcontinuewith}
             </RNText>
 
             <View style={RNStyles.flexRow}>
@@ -157,7 +157,7 @@ const Login = ({ navigation }) => {
 
             <View style={styles.DontHaveAccount}>
               <RNText size={FontSize.font12} color={Colors.N475569}>
-                {`Don't have account? `}
+                {Strings.DontHaveAccount}
               </RNText>
 
               <TouchableOpacity activeOpacity={0.6}>
@@ -165,7 +165,7 @@ const Login = ({ navigation }) => {
                   family={FontFamily.Medium}
                   size={FontSize.font12}
                   color={Colors.N054579}>
-                  {'Create now'}
+                  {Strings.Createnow}
                 </RNText>
               </TouchableOpacity>
             </View>
@@ -182,14 +182,13 @@ const useStyles = () => {
   return StyleSheet.create({
     content: {
       ...RNStyles.container,
-      paddingHorizontal: wp(6),
-      paddingTop: inset.top,
+      marginHorizontal: wp(6),
+      paddingTop: inset.top + hp(2),
       paddingBottom: inset.bottom,
     },
     logo: {
-      width: wp(25),
+      width: wp(20),
       height: hp(5),
-      marginTop: hp(2),
     },
     loginLogo: {
       width: wp(53),

@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SplashScreen from 'react-native-splash-screen';
 import { NavConfigs, NavRoutes } from './index';
+import { useLocalStorage } from '../Hooks';
 import {
   BarcodeInput,
   Login,
   PhotoUpload,
   ScanBarcode,
   TakePhoto,
-  UploadSuccess,
 } from '../Screens';
-import { useLocalStorage } from '../Hooks';
-import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +22,6 @@ const Routes = () => {
   }, []);
 
   const Screens = useCallback(() => {
-    console.log('Screens called......');
     return (
       <Stack.Navigator
         initialRouteName={
@@ -35,10 +33,6 @@ const Routes = () => {
         <Stack.Screen name={NavRoutes.ScanBarcode} component={ScanBarcode} />
         <Stack.Screen name={NavRoutes.PhotoUpload} component={PhotoUpload} />
         <Stack.Screen name={NavRoutes.TakePhoto} component={TakePhoto} />
-        <Stack.Screen
-          name={NavRoutes.UploadSuccess}
-          component={UploadSuccess}
-        />
       </Stack.Navigator>
     );
   }, [localdata?.user]);

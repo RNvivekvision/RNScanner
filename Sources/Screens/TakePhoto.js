@@ -19,7 +19,7 @@ const TakePhoto = ({ navigation }) => {
   const onTakePhoto = async () => {
     setState(p => ({ ...p, isLoading: true }));
     try {
-      let photo = await cameraRef.current.takePhoto({
+      const photo = await cameraRef.current.takePhoto({
         qualityPrioritization: 'speed',
         flash: 'off',
         enableShutterSound: false,

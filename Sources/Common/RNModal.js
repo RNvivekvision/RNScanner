@@ -24,13 +24,13 @@ const RNModal = ({
       onRequestClose={onClose}
       {...restProps}>
       <View style={[styles.blackOverlay, style]}>
-        <TouchableOpacity onPress={onClose} style={styles.imageContainer}>
+        {/* <TouchableOpacity onPress={onClose} style={styles.imageContainer}>
           <Image
             source={Images.Cross}
             resizeMode={'contain'}
             style={styles.image}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {children}
       </View>
     </Modal>

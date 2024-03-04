@@ -92,7 +92,7 @@ const BarcodeInput = ({ navigation }) => {
             size={FontSize.font12}
             color={Colors.N475569}
             style={{ width: '70%', alignSelf: 'center' }}>
-            {'You have 2 options for barcode apply and scan barcode.'}
+            {Strings.BarcodeScannerDescription}
           </RNText>
 
           <Image

@@ -4,7 +4,6 @@ const NavRoutes = {
   ScanBarcode: 'Scan Barcode',
   PhotoUpload: 'Photo Upload',
   TakePhoto: 'Take Photo',
-  UploadSuccess: 'Upload Success',
 };
 
 export default NavRoutes;
