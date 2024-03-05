@@ -19,7 +19,7 @@ const UploadSuccess = ({ visible, onClose }) => {
         style={styles.button}
         onPress={() => {
           onClose?.();
-          navigation.popToTop();
+          navigation.goBack();
         }}
       />
     </RNModal>

@@ -103,7 +103,9 @@ const ScanBarcode = ({ navigation }) => {
               {Strings.ScanBarCodeDescription}
             </RNText>
 
-            <Image source={Images.ScannerFrame} style={styles.frame} />
+            <View style={RNStyles.flexCenter}>
+              <Image source={Images.ScannerFrame} style={styles.frame} />
+            </View>
 
             <View style={styles.flashContainer}>
               <TouchableOpacity

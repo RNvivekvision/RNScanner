@@ -8,7 +8,6 @@
     "androidClean": "cd android && ./gradlew clean && cd ..",
     "androidUpdate": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && rm -rf ./android/app/src/main/res/drawable-* && rm -rf ./android/app/src/main/res/raw",
     "androidBuild": "cd android && ./gradlew assembleRelease && cd ..",
-    "androidMakeBuild": "yarn run androidClean && yarn run androidUpdate && yarn run androidClean && yarn run androidBuild",
     "ios": "npx react-native run-ios",
     "podInstall": "cd ios && pod install && cd ..",
     "openXcode": "xed -b ios",

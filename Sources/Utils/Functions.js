@@ -7,6 +7,7 @@ const openGallery = async () => {
     height: 400,
     cropping: true,
     mediaType: 'photo',
+    compressImageQuality: 0.5,
   });
   return photo;
 };

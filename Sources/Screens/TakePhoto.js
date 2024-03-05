@@ -1,15 +1,25 @@
 import React, { useRef, useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
 import { useIsFocused } from '@react-navigation/native';
-import { RNButton, RNHeader, RNStyles } from '../Common';
-import { Strings } from '../Constants';
-import { hp, wp } from '../Theme';
 import { useDispatch } from 'react-redux';
+import { RNButton, RNHeader, RNStyles } from '../Common';
+import { UploadSuccess } from '../Components';
 import { addPhoto } from '../Redux/Actions';
+import { Images, Strings } from '../Constants';
+import { hp, wp } from '../Theme';
 
 const TakePhoto = ({ navigation }) => {
-  const [State, setState] = useState({ isLoading: false });
+  const [State, setState] = useState({
+    isLoading: false,
+    showUploadSuccess: false,
+  });
   const cameraRef = useRef();
   const dispatch = useDispatch();
   const device = useCameraDevice('back');
@@ -29,8 +39,8 @@ const TakePhoto = ({ navigation }) => {
 
       console.log('onTakePhoto -> ', JSON.stringify(photo, null, 2));
       if (photo?.path) {
+        setState(p => ({ ...p, showUploadSuccess: true }));
         dispatch(addPhoto(photo));
-        navigation.goBack();
       }
     } catch (e) {
       console.log('Error onTakePhoto -> ', e);
@@ -44,6 +54,11 @@ const TakePhoto = ({ navigation }) => {
       <RNHeader title={Strings.TakePhoto} />
 
       <View style={styles.cameraContainer}>
+        <Image
+          source={Images.TakePhotoFrame}
+          resizeMode={'stretch'}
+          style={styles.frame}
+        />
         <Camera
           ref={cameraRef}
           device={device}
@@ -60,19 +75,31 @@ const TakePhoto = ({ navigation }) => {
         style={styles.button}
         onPress={onTakePhoto}
       />
+
+      <UploadSuccess
+        visible={State.showUploadSuccess}
+        onClose={() => setState(p => ({ ...p, showUploadSuccess: false }))}
+      />
     </View>
   );
 };
 
 const useStyles = () => {
   return StyleSheet.create({
+    frame: {
+      ...StyleSheet.absoluteFillObject,
+      ...RNStyles.image100,
+      backgroundColor: 'transparent',
+      zIndex: 1,
+    },
     cameraContainer: {
       flex: 1,
       height: '100%',
       width: '90%',
       alignSelf: 'center',
       marginTop: hp(2),
-      borderRadius: wp(2),
+      borderRadius: wp(3),
+      overflow: 'hidden',
     },
     button: {
       marginHorizontal: wp(6),

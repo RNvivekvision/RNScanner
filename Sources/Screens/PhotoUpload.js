@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
 import { NavRoutes } from '../Navigation';
-import { RenderImages, UploadSuccess } from '../Components';
+import { RenderImages } from '../Components';
 import { Strings, Images as PngImages } from '../Constants';
 import { addPhoto } from '../Redux/Actions';
 import { Functions } from '../Utils';
@@ -24,16 +24,14 @@ import {
 } from '../Common';
 
 const PhotoUpload = ({ navigation, route }) => {
-  const [State, setState] = useState({
-    showUploadSuccess: false,
-    buttonLoading: false,
-  });
+  const [State, setState] = useState({ buttonLoading: false });
+  const { User } = useSelector(({ UserReducer }) => UserReducer);
   const { Images } = useSelector(
     ({ UploadPhotoReducer }) => UploadPhotoReducer,
   );
   const dispatch = useDispatch();
   const code = route?.params?.code;
-  const styles = useStyles({});
+  const styles = useStyles();
 
   const openGallery = async () => {
     try {
@@ -53,7 +51,7 @@ const PhotoUpload = ({ navigation, route }) => {
 
     try {
       setTimeout(() => {
-        setState(p => ({ ...p, showUploadSuccess: true }));
+        navigation.goBack();
       }, 1500);
     } catch (e) {
       console.log('Error onUploadPhotoPress -> ', e);
@@ -82,13 +80,13 @@ const PhotoUpload = ({ navigation, route }) => {
         <RNInput
           placeholder={Strings.EnterBarcodeCodeHere}
           style={styles.input}
-          value={Strings.Username}
+          value={User?.email ?? Strings.Username}
           editable={false}
         />
         <RNInput
           placeholder={Strings.EnterBarcodeCodeHere}
           style={styles.input}
-          value={code || Strings.BarcodeID}
+          value={code ?? Strings.BarcodeID}
           editable={false}
         />
         <RNText style={styles.heading}>{Strings.UploadPhoto}</RNText>
@@ -123,11 +121,6 @@ const PhotoUpload = ({ navigation, route }) => {
         renderItem={({ item }) => <RenderImages item={item} />}
       />
 
-      <UploadSuccess
-        visible={State.showUploadSuccess}
-        onClose={() => setState(p => ({ ...p, showUploadSuccess: false }))}
-      />
-
       <RNButton
         disable={State.buttonLoading}
         isLoading={State.buttonLoading}
@@ -144,7 +137,7 @@ const PhotoUpload = ({ navigation, route }) => {
   );
 };
 
-const useStyles = ({}) => {
+const useStyles = () => {
   const inset = useSafeAreaInsets();
 
   return StyleSheet.create({

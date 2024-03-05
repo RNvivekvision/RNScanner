@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Platform, PermissionsAndroid } from 'react-native';
 
 const usePermissions = () => {
@@ -10,16 +10,12 @@ const usePermissions = () => {
 
   const checkPermissions = async () => {
     const camera = await checkPermission(PermissionsAndroid.PERMISSIONS.CAMERA);
-    const microphone = await checkPermission(
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    );
     const gallery = await checkPermission(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
     setState(p => ({
       ...p,
       camera: camera,
-      microphone: microphone,
       gallery: gallery,
     }));
   };
@@ -28,16 +24,12 @@ const usePermissions = () => {
     const camera = await requestPermission(
       PermissionsAndroid.PERMISSIONS.CAMERA,
     );
-    const microphone = await requestPermission(
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    );
     const gallery = await requestPermission(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
     setState(p => ({
       ...p,
       camera: camera,
-      microphone: microphone,
       gallery: gallery,
     }));
   };

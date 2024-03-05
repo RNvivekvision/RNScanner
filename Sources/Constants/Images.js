@@ -8,6 +8,7 @@ const Images = {
   loginLogo: require(ImagePath + 'loginLogo' + png),
   barcodeLogo: require(ImagePath + 'barcodeLogo' + png),
   ScannerFrame: require(ImagePath + 'ScannerFrame' + png),
+  TakePhotoFrame: require(ImagePath + 'TakePhotoFrame' + png),
   Google: require(ImagePath + 'Google' + png),
   Facebook: require(ImagePath + 'Facebook' + png),
   Back: require(ImagePath + 'Back' + png),

@@ -1141,7 +1141,7 @@ PODS:
     - React-Core
   - SocketRocket (0.6.1)
   - TOCropViewController (2.6.1)
-  - VisionCamera (3.9.0):
+  - VisionCamera (3.9.1):
     - React
     - React-callinvoker
     - React-Core
@@ -1439,7 +1439,7 @@ SPEC CHECKSUMS:
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
-  VisionCamera: 7a5c87805b13adaaa557132b44879ed1e1e39786
+  VisionCamera: 52f98e7628f9deea3e311c3b6d4870bb44445e05
   Yoga: 4f53dc50008d626fa679c7a1cb4bed898f8c0bde
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
