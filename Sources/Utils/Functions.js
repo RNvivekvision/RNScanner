@@ -1,15 +1,46 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 const openGallery = async () => {
   const photo = await ImageCropPicker.openPicker({
-    width: 300,
-    height: 400,
+    width: 800,
+    height: 800,
     cropping: true,
     mediaType: 'photo',
-    compressImageQuality: 0.5,
+    freeStyleCropEnabled: true,
   });
   return photo;
+};
+
+const resizeImage = async ({
+  uri,
+  maxWidth = 1024,
+  maxHeight = 1024,
+  targetSizeKB = 500,
+}) => {
+  let quality = 80;
+  let resizedImage = await ImageResizer.createResizedImage(
+    uri,
+    maxWidth,
+    maxHeight,
+    'JPEG',
+    quality,
+  );
+  console.log('Actual file size: ', resizedImage.size / 1024, 'KB');
+  while (resizedImage.size > targetSizeKB * 1024 && quality > 0) {
+    quality -= 5;
+    resizedImage = await ImageResizer.createResizedImage(
+      uri,
+      maxWidth,
+      maxHeight,
+      'JPEG',
+      quality,
+    );
+    console.log('Loop size: ', resizedImage.size / 1024, 'KB');
+  }
+  console.log('Actual file size: ', resizedImage.size / 1024, 'KB');
+  return resizedImage;
 };
 
 const setAppData = async data => {
@@ -33,6 +64,7 @@ const Functions = {
   setAppData,
   getAppData,
   openGallery,
+  resizeImage,
 };
 
 export default Functions;

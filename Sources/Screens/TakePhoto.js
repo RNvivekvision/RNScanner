@@ -14,6 +14,8 @@ import { UploadSuccess } from '../Components';
 import { addPhoto } from '../Redux/Actions';
 import { Images, Strings } from '../Constants';
 import { hp, wp } from '../Theme';
+import { Functions } from '../Utils';
+import { Toast } from 'react-native-toast-notifications';
 
 const TakePhoto = ({ navigation }) => {
   const [State, setState] = useState({
@@ -29,13 +31,13 @@ const TakePhoto = ({ navigation }) => {
   const onTakePhoto = async () => {
     setState(p => ({ ...p, isLoading: true }));
     try {
-      const photo = await cameraRef.current.takePhoto({
-        qualityPrioritization: 'speed',
+      const image = await cameraRef.current.takePhoto({
+        qualityPrioritization: 'balanced',
         flash: 'off',
         enableShutterSound: false,
       });
-      photo.path =
-        Platform.OS == 'android' ? `file://${photo.path}` : photo.path;
+      const photo = await Functions.resizeImage({ uri: image.path });
+      // photo.path = Platform.OS == 'android' ? `file://${photo.path}` : photo.path;
 
       console.log('onTakePhoto -> ', JSON.stringify(photo, null, 2));
       if (photo?.path) {
@@ -44,6 +46,7 @@ const TakePhoto = ({ navigation }) => {
       }
     } catch (e) {
       console.log('Error onTakePhoto -> ', e);
+      setState(p => ({ ...p, isLoading: false }));
     } finally {
       setState(p => ({ ...p, isLoading: false }));
     }
@@ -59,13 +62,17 @@ const TakePhoto = ({ navigation }) => {
           resizeMode={'stretch'}
           style={styles.frame}
         />
-        <Camera
-          ref={cameraRef}
-          device={device}
-          isActive={isFocused}
-          style={RNStyles.container}
-          photo={true}
-        />
+        {device && (
+          <Camera
+            ref={cameraRef}
+            device={device}
+            isActive={isFocused}
+            style={RNStyles.container}
+            photo={true}
+            enableZoomGesture={true}
+            onError={e => console.log(e)}
+          />
+        )}
       </View>
 
       <RNButton

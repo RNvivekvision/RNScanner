@@ -37,6 +37,7 @@ const POST_FORMDATA = async ({ EndPoint, Params, NeedToken }) => {
     IsformData: true,
     Params,
     EndPoint,
+    NeedToken,
   });
 };
 const PUT_FORMDATA = async ({ EndPoint, Params, NeedToken }) => {

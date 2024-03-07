@@ -25,7 +25,7 @@ const Routes = () => {
     return (
       <Stack.Navigator
         initialRouteName={
-          localdata?.user ? NavRoutes.BarcodeInput : NavRoutes.Login
+          localdata?.User ? NavRoutes.BarcodeInput : NavRoutes.Login
         }
         screenOptions={NavConfigs.screenOptions}>
         <Stack.Screen name={NavRoutes.Login} component={Login} />
@@ -35,7 +35,7 @@ const Routes = () => {
         <Stack.Screen name={NavRoutes.TakePhoto} component={TakePhoto} />
       </Stack.Navigator>
     );
-  }, [localdata?.user]);
+  }, [localdata?.User]);
 
   return (
     <NavigationContainer>

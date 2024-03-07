@@ -35,6 +35,7 @@ const Strings = {
   Orcontinuewith: 'Or continue with',
   DontHaveAccount: `Don't have account? `,
   Createnow: 'Create now',
+  Pleaseselectimage: 'Please select image.',
 };
 
 export default Strings;

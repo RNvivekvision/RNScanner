@@ -9,7 +9,7 @@ const RenderImages = ({ item }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: item?.path }}
+        source={{ uri: item?.uri || item?.path }}
         resizeMode={'cover'}
         style={styles.image}
       />

@@ -21,6 +21,8 @@ import { setUser } from '../Redux/Actions';
 import { Images, Strings } from '../Constants';
 import { NavRoutes } from '../Navigation';
 import { Functions, Validation } from '../Utils';
+import { FetchMethod, URL } from '../Api';
+import { Toast } from 'react-native-toast-notifications';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -48,25 +50,37 @@ const Login = ({ navigation }) => {
   const onLoginPress = async () => {
     setState(p => ({ ...p, submitPressed: true }));
     if (!noErrors) return;
-    const user = { email: State.email, password: State.password };
+
+    const Params = { email: State.email, password: State.password };
     setState(p => ({ ...p, isLoading: true }));
     try {
-      await Functions.setAppData({ user });
-      dispatch(setUser(user));
-      navigation.replace(NavRoutes.BarcodeInput);
+      const response = await FetchMethod.POST({
+        EndPoint: URL.Login,
+        Params: Params,
+        NeedToken: false,
+      });
+      console.log('onLoginPress -> ', JSON.stringify(response, null, 2));
+      if (response?.isSuccess) {
+        Params.token = response?.authToken;
+        await Functions.setAppData({ User: Params });
+        dispatch(setUser(Params));
+        navigation.replace(NavRoutes.BarcodeInput);
+      } else {
+        Toast.show(response?.message);
+      }
     } catch (e) {
       console.log('Error onSubmitPress -> ', e);
     } finally {
-      setTimeout(() => {
-        setState(p => ({ ...p, isLoading: false }));
-      }, 3000);
+      setState(p => ({ ...p, isLoading: false }));
     }
   };
 
   return (
     <View style={RNStyles.container}>
       <RNKeyboardAvoid>
-        <ScrollView keyboardShouldPersistTaps={'handled'}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps={'handled'}>
           <View style={styles.content}>
             <Image
               source={Images.appLogo}

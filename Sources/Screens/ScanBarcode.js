@@ -48,7 +48,7 @@ const ScanBarcode = ({ navigation }) => {
     onCodeScanned: codes => {
       const code = codes[0]?.value;
       if (!State.isButtonLoading) {
-        console.log('called.....');
+        console.log('code -> ', code);
         setState(p => ({ ...p, code: code }));
       }
     },

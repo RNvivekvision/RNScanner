@@ -1,4 +1,4 @@
-// import Axios from 'axios';
+import Axios from 'axios';
 import { Functions } from '../Utils';
 import URL from './URL';
 
@@ -18,18 +18,18 @@ const REQUEST = async ({
     url: URL.AppUrl + EndPoint,
   };
   // console.log('options -> ', JSON.stringify(options, null, 2));
-  // const response = await Axios(options);
-  // return response.data;
+  const response = await Axios(options);
+  return response.data;
 
   // fetch method......
-  const responseJson = await fetch(options.url, {
-    method: Method,
-    body: JSON.stringify(Params),
-    headers: Headers,
-  });
-  const response = await responseJson?.json();
+  // const responseJson = await fetch(options.url, {
+  //   method: Method,
+  //   body: JSON.stringify(Params),
+  //   headers: Headers,
+  // });
+  // const response = await responseJson?.json();
   // console.log('response -> ', JSON.stringify(response, null, 2));
-  return response;
+  // return response;
 };
 const Header = (NeedToken, Token, IsformData) => {
   let apiHeaders = {

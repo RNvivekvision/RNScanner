@@ -13,6 +13,7 @@ const usePermissions = () => {
     const gallery = await checkPermission(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
+    console.log('check permission -> ', { camera, gallery });
     setState(p => ({
       ...p,
       camera: camera,
@@ -27,6 +28,8 @@ const usePermissions = () => {
     const gallery = await requestPermission(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
     );
+
+    console.log('request permission -> ', { camera, gallery });
     setState(p => ({
       ...p,
       camera: camera,

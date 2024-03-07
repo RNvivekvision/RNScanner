@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { Colors, FontFamily, FontSize, hp, wp } from '../Theme';
+import { Colors, FontFamily, FontSize, hp, isIOS, wp } from '../Theme';
 import { NavRoutes } from '../Navigation';
 import { RenderImages } from '../Components';
 import { Strings, Images as PngImages } from '../Constants';
@@ -22,6 +22,8 @@ import {
   RNStyles,
   RNText,
 } from '../Common';
+import { Toast } from 'react-native-toast-notifications';
+import { FetchMethod, URL } from '../Api';
 
 const PhotoUpload = ({ navigation, route }) => {
   const [State, setState] = useState({ buttonLoading: false });
@@ -35,9 +37,13 @@ const PhotoUpload = ({ navigation, route }) => {
 
   const openGallery = async () => {
     try {
-      const photo = await Functions.openGallery();
-      console.log('photo -> ', JSON.stringify(photo, null, 2));
-      dispatch(addPhoto(photo));
+      const image = await Functions.openGallery();
+      const photo = await Functions.resizeImage({ uri: image.path });
+      console.log(
+        'addPhoto -> ',
+        JSON.stringify({ ...image, ...photo }, null, 2),
+      );
+      dispatch(addPhoto({ ...image, ...photo }));
     } catch (e) {
       console.log('Error onUploadPress -> ', e);
     }
@@ -45,16 +51,43 @@ const PhotoUpload = ({ navigation, route }) => {
 
   const onUploadPhotoPress = async () => {
     if (Images.length === 0) {
-      return alert('Please select image.');
+      Toast.show(Strings.Pleaseselectimage);
+      return;
     }
+
     setState(p => ({ ...p, buttonLoading: true }));
+    const formdata = new FormData();
+    formdata.append('barcodeNumber', code);
+    for (const image of Images) {
+      formdata.append('images', {
+        name: image.name,
+        type: image.mime || 'image/jpeg',
+        uri: isIOS ? image.uri.replace('file://', '') : image.uri,
+      });
+    }
+    console.log('formdata -> ', JSON.stringify(formdata, null, 2));
 
     try {
-      setTimeout(() => {
-        navigation.goBack();
-      }, 1500);
+      const response = await FetchMethod.POST_FORMDATA({
+        EndPoint: URL.barcodeUpload,
+        Params: formdata,
+      });
+      console.log('onUploadPhotoPress -> ', JSON.stringify(response, null, 2));
+      if (response?.isSuccess) {
+        Toast.show('Photos uploaded successfully.');
+        setTimeout(() => {
+          navigation.goBack();
+        }, 1000);
+      } else {
+        Toast.show(response?.message);
+      }
     } catch (e) {
+      Toast.show('Something went wrong');
       console.log('Error onUploadPhotoPress -> ', e);
+    } finally {
+      setTimeout(() => {
+        setState(p => ({ ...p, buttonLoading: false }));
+      }, 1000);
     }
   };
 

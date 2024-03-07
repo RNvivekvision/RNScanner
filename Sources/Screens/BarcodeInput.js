@@ -52,7 +52,9 @@ const BarcodeInput = ({ navigation }) => {
       setState(p => ({ ...p, submitPressed: true }));
       if (noErrors) {
         await requestPermissions();
-        navigation.navigate(NavRoutes.PhotoUpload, { code: State.barcode });
+        navigation.navigate(NavRoutes.PhotoUpload, {
+          code: State.barcode.trimEnd(),
+        });
       }
     } catch (e) {
       console.log('Error onSubmitPress -> ', e);
@@ -109,7 +111,9 @@ const BarcodeInput = ({ navigation }) => {
             placeholderTextColor={errorBarcode ? Colors.d13232 : Colors.Black}
             style={styles.input}
             value={State.barcode}
-            onChangeText={v => setState(p => ({ ...p, barcode: v }))}
+            onChangeText={v =>
+              setState(p => ({ ...p, barcode: v.trimStart() }))
+            }
           />
 
           <RNButton

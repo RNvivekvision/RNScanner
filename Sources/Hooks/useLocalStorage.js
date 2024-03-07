@@ -16,7 +16,7 @@ const useLocalStorage = () => {
       const appdata = await Functions.getAppData('appdata');
       if (appdata !== null) {
         setState(p => ({ ...p, localdata: appdata }));
-        dispatch(setUser(appdata?.user));
+        dispatch(setUser(appdata?.User));
       }
     } catch (e) {
       console.log('Error getDataFromLocalStorage -> ', e);
